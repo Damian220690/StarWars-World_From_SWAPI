@@ -13,7 +13,7 @@
             <a th:text="${planet.name}" th:href="@{planets/{id} (id=${entry.key})}"/>
         </li>
     </ul>
-    <button>Save planets to database</button>
+    <a th:href="@{planets/save}"><button>Save planets to database</button></a>
 </div>
 </body>
 </html>

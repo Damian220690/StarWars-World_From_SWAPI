@@ -6,6 +6,10 @@ import javax.validation.constraints.NotNull;
 @Table(name = "planets")
 @Entity
 public class PlanetEntity {
+
+    @Transient
+    private Planet planet;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,6 +25,16 @@ public class PlanetEntity {
     private String rotationPeriod;
     @NotNull
     private String diameter;
+
+
+    public PlanetEntity(Planet planet) {
+        this.name = planet.getName();
+        this.climate = planet.getClimate();
+        this.terrain = planet.getTerrain();
+        this.population = planet.getPopulation();
+        this.rotationPeriod = planet.getRotationPeriod();
+        this.diameter = planet.getDiameter();
+    }
 
     public long getId() {
         return id;

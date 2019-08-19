@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import pl.dn.star_wars_world.model.ApiObject;
 import pl.dn.star_wars_world.model.Planet;
+import pl.dn.star_wars_world.repository.PlanetRepository;
+import pl.dn.star_wars_world.service.PlanetService;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,6 +24,9 @@ public class HomeContoller {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    PlanetService planetService;
 
     @GetMapping("/planets/{id}")
     public String getInfoAboutPlanet(@PathVariable int id, Model model){
@@ -49,4 +54,15 @@ public class HomeContoller {
         model.addAttribute("planets", planetsMap);
         return "home";
     }
+
+    @GetMapping("/planets/save")
+    @ResponseBody
+    public String savePlanets(){
+        ApiObject apiObject = restTemplate.getForObject("https://swapi.co/api/planets/", ApiObject.class);
+        List<Planet> planets = Arrays.asList(apiObject.getPlanets());
+
+        planetService.savePlanetToDatabase(planets);
+        return "Success";
+    }
+
 }
