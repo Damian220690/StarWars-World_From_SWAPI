@@ -2,7 +2,11 @@ package pl.dn.star_wars_world.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import pl.dn.star_wars_world.model.ApiObject;
 import pl.dn.star_wars_world.model.Planet;
@@ -12,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 @RequestMapping("/starWars")
 public class HomeContoller {
 
@@ -20,9 +24,10 @@ public class HomeContoller {
     RestTemplate restTemplate;
 
     @GetMapping("/planets/{id}")
-    public String getInfoAboutPlanet(@PathVariable int id){
+    public String getInfoAboutPlanet(@PathVariable int id, Model model){
         Planet planet = restTemplate.getForObject("https://swapi.co/api/planets/"+id, Planet.class);
-        return planet.getName() + " - "+ planet.getPopulation();
+        model.addAttribute("planet", planet);
+        return "specificPlanet";
     }
 
 //    @GetMapping("/planets")
@@ -32,14 +37,16 @@ public class HomeContoller {
 //        return listOfPlanets;
 //    }
 
+
     @GetMapping("/planets")
-    public Map<String, String> getInfoAboutAllPlanets(){
+    public String getHomePage(Model model){
         ApiObject apiObject = restTemplate.getForObject("https://swapi.co/api/planets/", ApiObject.class);
         List<Planet> planets = Arrays.asList(apiObject.getPlanets());
-        Map<String,String> planetPopulation = new HashMap<>();
-        for(Planet planet : planets){
-            planetPopulation.put(planet.getName(),planet.getPopulation());
+        Map<Integer, Planet> planetsMap = new HashMap<>();
+        for(int i = 0; i < planets.size(); i++){
+            planetsMap.put(i+2,planets.get(i));
         }
-        return planetPopulation;
+        model.addAttribute("planets", planetsMap);
+        return "home";
     }
 }

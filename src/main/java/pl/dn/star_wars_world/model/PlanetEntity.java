@@ -1,33 +1,33 @@
 package pl.dn.star_wars_world.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Planet {
-    @JsonProperty("name")
+@Table(name = "planets")
+@Entity
+public class PlanetEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @NotNull
     private String name;
-    @JsonProperty("climate")
+    @NotNull
     private String climate;
-    @JsonProperty("terrain")
+    @NotNull
     private String terrain;
-    @JsonProperty("population")
+    @NotNull
     private String population;
-    @JsonProperty("rotation_period")
+    @NotNull
     private String rotationPeriod;
-    @JsonProperty("diameter")
+    @NotNull
     private String diameter;
 
-    public Planet() {
+    public long getId() {
+        return id;
     }
 
-    public Planet(String name, String climate, String terrain, String population, String rotationPeriod, String diameter) {
-        this.name = name;
-        this.climate = climate;
-        this.terrain = terrain;
-        this.population = population;
-        this.rotationPeriod = rotationPeriod;
-        this.diameter = diameter;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -76,17 +76,5 @@ public class Planet {
 
     public void setDiameter(String diameter) {
         this.diameter = diameter;
-    }
-
-    @Override
-    public String toString() {
-        return "Planet{" +
-                "name='" + name + '\'' +
-                ", climate='" + climate + '\'' +
-                ", terrain='" + terrain + '\'' +
-                ", population='" + population + '\'' +
-                ", rotationPeriod='" + rotationPeriod + '\'' +
-                ", diameter='" + diameter + '\'' +
-                '}';
     }
 }

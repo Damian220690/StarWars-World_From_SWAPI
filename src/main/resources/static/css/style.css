@@ -1,0 +1,6 @@
+.div-content{
+    text-align: center;
+}
+.planetsList, .planet-properties{
+    list-style-type: none;
+}

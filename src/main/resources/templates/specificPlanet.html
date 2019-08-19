@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${planet.name}"></title>
+    <link rel="stylesheet" th:href="@{../../css/style.css}">
+</head>
+<body>
+
+    <ul class="planet-properties" th:object="${planet}">
+        <li><span>Name: </span><span th:text="*{name}"></span></li>
+        <li><span>Rotation period: </span><span th:text="*{rotationPeriod}"></span></li>
+        <li><span>Diameter: </span><span th:text="*{diameter}"></span></li>
+        <li><span>Climate: </span><span th:text="*{climate}"></span></li>
+        <li><span>Terrain: </span><span th:text="*{terrain}"></span></li>
+        <li><span>Population: </span><span th:text="*{population}"></span></li>
+    </ul>
+</body>
+</html>
